@@ -18,37 +18,55 @@ import type {
  * TODO: implement all StorageAdapter methods
  */
 export class InMemoryAdapter implements StorageAdapter {
-  // TODO: declare private Map fields for each entity type
+  private readonly tenants = new Map<TenantId, Tenant>()
+  private readonly users = new Map<string, User>()
+  private readonly balances = new Map<string, CreditBalance>()
+  private readonly events: UsageEvent[] = []
 
-  async getTenant(_tenantId: TenantId): Promise<Tenant | null> {
-    throw new Error('Not implemented: InMemoryAdapter.getTenant')
+  private makeUserKey(tenantId: TenantId, userId: UserId): string {
+    return `${tenantId}:${userId}`
+  }
+
+  private makeBalanceKey(tenantId: TenantId, userId?: UserId): string {
+    return userId ? `${tenantId}:${userId}` : tenantId
+  }
+
+  async getTenant(tenantId: TenantId): Promise<Tenant | null> {
+    return this.tenants.get(tenantId) ?? null
   }
 
   async upsertTenant(_tenant: Tenant): Promise<void> {
-    throw new Error('Not implemented: InMemoryAdapter.upsertTenant')
+    this.tenants.set(_tenant.id, _tenant)
   }
 
   async getUser(_tenantId: TenantId, _userId: UserId): Promise<User | null> {
-    throw new Error('Not implemented: InMemoryAdapter.getUser')
+    return this.users.get(this.makeUserKey(_tenantId, _userId)) ?? null
   }
 
   async upsertUser(_user: User): Promise<void> {
-    throw new Error('Not implemented: InMemoryAdapter.upsertUser')
+    this.users.set(this.makeUserKey(_user.tenantId, _user.id), _user)
   }
 
   async getBalance(_tenantId: TenantId, _userId?: UserId): Promise<CreditBalance | null> {
-    throw new Error('Not implemented: InMemoryAdapter.getBalance')
+    return this.balances.get(this.makeBalanceKey(_tenantId, _userId)) ?? null
   }
 
   async setBalance(_balance: CreditBalance): Promise<void> {
-    throw new Error('Not implemented: InMemoryAdapter.setBalance')
+    this.balances.set(this.makeBalanceKey(_balance.tenantId, _balance.userId), _balance)
   }
 
   async recordEvent(_event: UsageEvent): Promise<void> {
-    throw new Error('Not implemented: InMemoryAdapter.recordEvent')
+    this.events.push(_event)
   }
 
-  async queryEvents(_params: ExportParams): Promise<UsageEvent[]> {
-    throw new Error('Not implemented: InMemoryAdapter.queryEvents')
+  async queryEvents(params: ExportParams): Promise<UsageEvent[]> {
+    return this.events.filter(event => {
+      if (params.tenantId !== undefined && event.tenantId !== params.tenantId) return false
+      if (params.userId !== undefined && event.userId !== params.userId) return false
+      if (params.feature !== undefined && event.feature !== params.feature) return false
+      if (params.from !== undefined && event.timestamp < params.from) return false
+      if (params.to !== undefined && event.timestamp > params.to) return false
+      return true
+    })
   }
 }
