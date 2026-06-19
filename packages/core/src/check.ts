@@ -52,7 +52,7 @@ export async function check(
 
   const tenant = await storage.getTenant(params.tenantId)
   if (!tenant) {
-    return {
+    return { // todo: Shouldnt the return value be a type CheckResult? 
       allowed: false,
       remaining: 0,
       resetAt: new Date().toISOString(),
