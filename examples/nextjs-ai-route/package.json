@@ -1,0 +1,17 @@
+{
+  "name": "uselimit-example-nextjs-ai-route",
+  "version": "0.0.0",
+  "private": true,
+  "description": "Next.js App Router route handler protected by uselimit",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start"
+  },
+  "dependencies": {
+    "@uselimit/core": "file:../../packages/core",
+    "next": "^14.2.5",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1"
+  }
+}
