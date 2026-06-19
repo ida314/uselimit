@@ -12,10 +12,10 @@ import type {
 /**
  * InMemoryAdapter — volatile, process-local storage.
  *
- * Intended for unit tests and local development only.
- * All data is lost on process exit.
- *
- * TODO: implement all StorageAdapter methods
+ * Intended for unit tests and local development only: all data is lost on
+ * process exit, and there is no cross-process locking, so it is NOT safe for
+ * multi-process or production use. See `consume()` for the concurrency caveats
+ * a production-grade adapter must address.
  */
 export class InMemoryAdapter implements StorageAdapter {
   private readonly tenants = new Map<TenantId, Tenant>()
@@ -60,7 +60,7 @@ export class InMemoryAdapter implements StorageAdapter {
   }
 
   async queryEvents(params: ExportParams): Promise<UsageEvent[]> {
-    return this.events.filter(event => {
+    return this.events.filter((event) => {
       if (params.tenantId !== undefined && event.tenantId !== params.tenantId) return false
       if (params.userId !== undefined && event.userId !== params.userId) return false
       if (params.feature !== undefined && event.feature !== params.feature) return false

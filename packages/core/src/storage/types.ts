@@ -14,9 +14,10 @@ import type {
  * Implement this interface to add a new storage backend
  * (e.g. Postgres, Redis, SQLite, DynamoDB).
  *
- * TODO: implement InMemoryAdapter in ./memory.ts (for tests)
- * TODO: implement PostgresAdapter in a separate @uselimit/storage-postgres package
- * TODO: implement RedisAdapter in a separate @uselimit/storage-redis package
+ * Implemented: InMemoryAdapter (./memory.ts) — for tests and local dev.
+ * Planned: PostgresAdapter and RedisAdapter as separate @uselimit/storage-*
+ * packages. A production adapter must make credit consumption atomic
+ * (a transaction or compare-and-swap on the balance) — see consume().
  */
 export interface StorageAdapter {
   // ── Tenants ───────────────────────────────────────────────────────────────

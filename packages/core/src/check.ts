@@ -43,16 +43,13 @@ function nextReset(resetPeriod: ResetPeriod, tenantPeriodStart: string): string 
   }
 }
 
-export async function check(
-  params: CheckParams,
-  config: UseLimitConfig,
-): Promise<CheckResult> {
+export async function check(params: CheckParams, config: UseLimitConfig): Promise<CheckResult> {
   const storage = config.storage ?? new InMemoryAdapter()
   const cost = params.cost ?? 0
 
   const tenant = await storage.getTenant(params.tenantId)
   if (!tenant) {
-    return { // todo: Shouldnt the return value be a type CheckResult? 
+    return {
       allowed: false,
       remaining: 0,
       resetAt: new Date().toISOString(),
@@ -60,12 +57,10 @@ export async function check(
     }
   }
 
-  const user = params.userId
-    ? await storage.getUser(params.tenantId, params.userId)
-    : null
+  const user = params.userId ? await storage.getUser(params.tenantId, params.userId) : null
 
   const planId = user?.planId ?? tenant.planId ?? config.defaultPlanId
-  const plan = config.plans?.find(p => p.id === planId) ?? null
+  const plan = config.plans?.find((p) => p.id === planId) ?? null
 
   const balance = await storage.getBalance(params.tenantId, params.userId)
 
