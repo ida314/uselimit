@@ -42,8 +42,8 @@ function cellValue(event: UsageEvent, column: (typeof CSV_COLUMNS)[number]): str
 function serializeCsv(events: UsageEvent[]): string {
   const rows = [
     CSV_COLUMNS.join(','),
-    ...events.map(event =>
-      CSV_COLUMNS.map(col => escapeCsvField(cellValue(event, col))).join(','),
+    ...events.map((event) =>
+      CSV_COLUMNS.map((col) => escapeCsvField(cellValue(event, col))).join(','),
     ),
   ]
   return rows.join('\r\n')

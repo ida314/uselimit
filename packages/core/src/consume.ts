@@ -1,6 +1,12 @@
-import type { ConsumeParams, ConsumeResult, UseLimitConfig, CreditBalance, UsageEvent} from './types.js'
+import type {
+  ConsumeParams,
+  ConsumeResult,
+  UseLimitConfig,
+  CreditBalance,
+  UsageEvent,
+} from './types.js'
 import { randomUUID } from 'crypto'
-import { check } from './check.js' 
+import { check } from './check.js'
 import { InMemoryAdapter } from './storage/memory.js'
 
 /**
