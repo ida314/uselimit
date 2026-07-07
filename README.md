@@ -5,7 +5,7 @@
 [![CI](https://github.com/ida314/uselimit/actions/workflows/ci.yml/badge.svg)](https://github.com/ida314/uselimit/actions/workflows/ci.yml)
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](./LICENSE)
 [![Types: TypeScript](https://img.shields.io/badge/types-TypeScript-3178c6.svg)](https://www.typescriptlang.org/)
-<!-- TODO: add an npm version badge once @uselimit/core is published. -->
+[![npm version](https://img.shields.io/npm/v/@uselimit/core.svg)](https://www.npmjs.com/package/@uselimit/core)
 
 Add per-tenant credits, per-feature quotas, and usage export to your app in an afternoon —
 **before** you reach for a full billing platform or an enterprise API gateway.

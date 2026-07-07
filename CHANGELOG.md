@@ -13,9 +13,9 @@ and this project aims to adhere to [Semantic Versioning](https://semver.org/spec
 - YAML/JSON plan-config loader (`summaries: 20/month` style entitlements).
 - Concurrency-safe `consume()` contract for transactional adapters.
 
-## [0.1.0] — Unreleased
+## [0.1.0] — 2026-07-06
 
-> Initial core release. Not yet published to npm.
+> Initial release of `@uselimit/core`.
 
 ### Added
 - `@uselimit/core` package (pnpm workspace, TypeScript, NodeNext ESM, zero runtime dependencies).
